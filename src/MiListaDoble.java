@@ -103,10 +103,37 @@ public class MiListaDoble implements ListInterface {
         return insert(nodoEncontrado, object); }
 
     @Override
-    public boolean insertHead(Object object) { return false; }
+    public boolean insertHead(Object object) {
+        if (object == null) return false;
+
+        DoubleNode nuevoNodo = new DoubleNode(object);
+
+        if (isEmpty()) {
+            this.cabeza = nuevoNodo;
+            this.cola = nuevoNodo;
+        } else {
+            nuevoNodo.siguiente = this.cabeza;
+            this.cabeza.anterior = nuevoNodo;
+            this.cabeza = nuevoNodo;
+        }
+        return true;
+        }
 
     @Override
-    public boolean insertTail(Object object) { return false; }
+    public boolean insertTail(Object object) {
+        if (object == null) return false;
+
+        DoubleNode nuevoNodo = new DoubleNode(object);
+
+        if (isEmpty()) {
+            this.cabeza = nuevoNodo;
+            this.cola = nuevoNodo;
+        } else {
+            this.cola.siguiente = nuevoNodo;
+            nuevoNodo.anterior = this.cola;
+            this.cola = nuevoNodo;
+        }
+        return true;}
 
     @Override
     public boolean set(DoubleNode node, Object object) { return false; }

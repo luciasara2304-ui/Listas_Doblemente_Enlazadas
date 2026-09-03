@@ -29,6 +29,15 @@ public class Main {
         lista.add("Elemento 5");
         System.out.println("Nodo encontrado: " + lista.get(lista.search("Elemento 3")));
 
+        System.out.println("¿Insertado por nodo?: " + lista.insert(n2, "Elemento Insertado Nodo"));
+        System.out.println("¿Insertado por objeto?: " + lista.insert("Elemento 5", "Elemento Insertado Objeto"));
+
+        // Insertar al inicio y al final
+        lista.insertHead("Elemento Inicio");
+        lista.insertTail("Elemento Final");
+        System.out.println("Nueva Cabeza: " + lista.getHead());
+        System.out.println("Nueva Cola: " + lista.getTail());
+
 
         //Después de vaciar la lista
         lista.clear();

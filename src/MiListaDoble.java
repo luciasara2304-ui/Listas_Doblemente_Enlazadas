@@ -20,10 +20,18 @@ public class MiListaDoble implements ListInterface {
     }
 
     @Override
-    public void clear() { }
+    public void clear() {
+        this.cabeza = null;
+        this.cola = null;
+    }
 
     @Override
-    public Object getHead() { return null; }
+    public Object getHead() {
+        if (isEmpty()){
+            return null;
+        }
+        return this.cabeza;
+    }
 
     @Override
     public Object getTail() { return null; }

@@ -8,6 +8,4 @@ public class DoubleNode {
         this.dato = dato;
         this.siguiente = null;
     }
-
-
 }

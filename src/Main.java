@@ -23,7 +23,12 @@ public class Main {
         //Lista con nodos
         System.out.println("¿Está vacía?: " + lista.isEmpty());
         System.out.println("Tamaño: " + lista.getSize());
-        System.out.println("Obtener la cabeza: " + ((DoubleNode) lista.getHead()).dato);
+        System.out.println("Obtener la cabeza: " + lista.getHead());
+        System.out.println("Obtener la cola: " + lista.getTail());
+        System.out.println("Dato del nodo 2: " +lista.get(n2));
+        lista.add("Elemento 5");
+        System.out.println("Nodo encontrado: " + lista.get(lista.search("Elemento 3")));
+
 
         //Después de vaciar la lista
         lista.clear();

@@ -136,10 +136,53 @@ public class MiListaDoble implements ListInterface {
         return true;}
 
     @Override
-    public boolean set(DoubleNode node, Object object) { return false; }
+    public boolean set(DoubleNode node, Object object) {
+        if (node == null || object == null) return false;
+
+        node.dato = object;
+        return true;
+    }
 
     @Override
-    public boolean remove(DoubleNode node) { return false; }
+    public boolean remove(DoubleNode node) {
+        if (node == null || isEmpty()) {
+            return false;
+        }
+
+        DoubleNode ant = (DoubleNode) node.anterior;
+        DoubleNode sig = node.siguiente;
+
+        if (node == this.cabeza && node == this.cola) {
+            this.cabeza = null;
+            this.cola = null;
+        }
+        else if (node == this.cabeza) {
+            this.cabeza = sig;
+            if (this.cabeza != null) {
+                this.cabeza.anterior = null;
+            }
+        }
+
+        else if (node == this.cola) {
+            this.cola = ant;
+            if (this.cola != null) {
+                this.cola.siguiente = null;
+            }
+        }
+        else {
+            if (ant != null) {
+                ant.siguiente = sig;
+            }
+            if (sig != null) {
+                sig.anterior = ant;
+            }
+        }
+
+        node.siguiente = null;
+        node.anterior = null;
+
+        return true;
+    }
 
     // --- ESQUELETOS DE OPERACIONES DE EXPANSIÓN ---
 

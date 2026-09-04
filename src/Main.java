@@ -38,6 +38,12 @@ public class Main {
         System.out.println("Nueva Cabeza: " + lista.getHead());
         System.out.println("Nueva Cola: " + lista.getTail());
 
+        // Modificar y eliminar un nodo
+        System.out.println("Dato original n2: " + lista.get(n2));
+        System.out.println("¿Se modificó n2?: " + lista.set(n2, "Modificado"));
+        System.out.println("Nuevo dato de n2: " + lista.get(n2));
+        System.out.println("¿Se eliminó n2?: " + lista.remove(n2));
+
 
         //Después de vaciar la lista
         lista.clear();

@@ -180,17 +180,17 @@ public class MiListaDoble implements ListInterface {
                     if (this.cabeza != null) {
                         this.cabeza.anterior = null;
                     } else {
-                        this.cola = null; // La lista quedó vacía
+                        this.cola = null;
                     }
                 }
-                // 2. Si es la cola
+
                 else if (actual == this.cola) {
                     this.cola = (DoubleNode) actual.anterior;
                     if (this.cola != null) {
                         this.cola.siguiente = null;
                     }
                 }
-                // 3. Si es un nodo intermedio
+
                 else {
                     DoubleNode ant = (DoubleNode) actual.anterior;
                     DoubleNode sig = actual.siguiente;
@@ -203,11 +203,10 @@ public class MiListaDoble implements ListInterface {
                     }
                 }
 
-                // Desconectar el nodo eliminado
                 actual.anterior = null;
                 actual.siguiente = null;
 
-                return true; // Se eliminó con éxito
+                return true;
             }
             actual = actual.siguiente;
         }
@@ -259,12 +258,67 @@ public class MiListaDoble implements ListInterface {
 
     @Override
     public Object[] toArray(Object[] object) {
-        return new Object[0];
+        int tamanio = getSize();
+
+        if (object == null || object.length < tamanio) {
+            object = new Object[tamanio];
+        }
+
+        DoubleNode actual = this.cabeza;
+        int i = 0;
+
+        while (actual != null && i < tamanio) {
+            Object valor = actual.dato;
+
+            while (valor instanceof DoubleNode) {
+                valor = ((DoubleNode) valor).dato;
+            }
+
+            object[i] = valor;
+            actual = actual.siguiente;
+            i++;
+        }
+
+        if (object.length > tamanio) {
+            object[tamanio] = null;
+        }
+
+        return object;
     }
 
     @Override
     public MiListaDoble subList(DoubleNode from, DoubleNode to) {
-        return null;
+        MiListaDoble sublista = new MiListaDoble();
+
+        if (from == null || to == null || isEmpty()) {
+            return sublista;
+        }
+
+        DoubleNode actual = this.cabeza;
+        while (actual != null && actual != from && actual.dato != from) {
+            actual = actual.siguiente;
+        }
+
+        if (actual == null) return sublista;
+
+        boolean alcanzado = false;
+        while (actual != null && !alcanzado) {
+
+            Object valor = actual.dato;
+            while (valor instanceof DoubleNode) {
+                valor = ((DoubleNode) valor).dato;
+            }
+
+            sublista.add(valor);
+
+            if (actual == to || actual.dato == to) {
+                alcanzado = true;
+            }
+
+            actual = actual.siguiente;
+        }
+
+        return sublista;
     }
 
     @Override

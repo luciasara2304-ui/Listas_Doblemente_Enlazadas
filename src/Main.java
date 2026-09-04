@@ -43,6 +43,15 @@ public class Main {
         System.out.println("¿Contiene 'Elemento Inexistente'?: " + lista.contains("Elemento Inexistente"));
         System.out.println("Arreglo: " + Arrays.toString(lista.toArray()));
 
+        DoubleNode desde = lista.search("Elemento Inicio");
+        DoubleNode hasta = lista.search("Elemento 3");
+        MiListaDoble sublista = lista.subList(desde, hasta);
+        System.out.println("Sublista: " + Arrays.toString(sublista.toArray()));
+
+        Object[] miArreglo = new Object[lista.getSize()];
+        lista.toArray(miArreglo);
+        System.out.println("Arreglo (con parámetro): " + Arrays.toString(miArreglo));
+
 
         lista.clear();
         System.out.println("DESPUES DE VACIAR LA LISTA ");

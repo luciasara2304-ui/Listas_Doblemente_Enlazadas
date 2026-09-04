@@ -52,6 +52,8 @@ public class Main {
         lista.toArray(miArreglo);
         System.out.println("Arreglo (con parámetro): " + Arrays.toString(miArreglo));
 
+        MiListaDoble listaOrdenada = lista.sortList();
+        System.out.println("Lista Ordenada: " + Arrays.toString(listaOrdenada.toArray()));
 
         lista.clear();
         System.out.println("DESPUES DE VACIAR LA LISTA ");

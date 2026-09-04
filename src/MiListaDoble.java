@@ -323,6 +323,42 @@ public class MiListaDoble implements ListInterface {
 
     @Override
     public MiListaDoble sortList() {
-        return null;
+        MiListaDoble listaOrdenada = new MiListaDoble();
+
+        if (isEmpty()) {
+            return listaOrdenada;
+        }
+
+        DoubleNode actual = this.cabeza;
+        while (actual != null) {
+            Object valor = actual.dato;
+            while (valor instanceof DoubleNode) {
+                valor = ((DoubleNode) valor).dato;
+            }
+            listaOrdenada.add(valor);
+            actual = actual.siguiente;
+        }
+
+        boolean huboIntercambio;
+        do {
+            huboIntercambio = false;
+            DoubleNode p1 = listaOrdenada.cabeza;
+
+            while (p1 != null && p1.siguiente != null) {
+                String val1 = p1.dato.toString();
+                String val2 = p1.siguiente.dato.toString();
+
+                if (val1.compareTo(val2) > 0) {
+
+                    Object temp = p1.dato;
+                    p1.dato = p1.siguiente.dato;
+                    p1.siguiente.dato = temp;
+                    huboIntercambio = true;
+                }
+                p1 = p1.siguiente;
+            }
+        } while (huboIntercambio);
+
+        return listaOrdenada;
     }
 }

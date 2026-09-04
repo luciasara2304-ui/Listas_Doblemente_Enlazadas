@@ -1,5 +1,5 @@
 public class DoubleNode {
-    Object anterior;
+    DoubleNode anterior;
     Object dato;
     DoubleNode siguiente;
 

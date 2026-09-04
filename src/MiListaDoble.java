@@ -44,17 +44,30 @@ public class MiListaDoble implements ListInterface {
 
     @Override
     public Object get(DoubleNode node) {
-        if (node == null){
-            return null;
+        if (node == null) return null;
+
+        Object valor = node.dato;
+
+        while (valor instanceof DoubleNode) {
+            valor = ((DoubleNode) valor).dato;
         }
-        return node.dato;
+
+        return valor;
     }
 
     @Override
     public DoubleNode search(Object object) {
+        if (object == null || isEmpty()) return null;
+
         DoubleNode actual = this.cabeza;
         while(actual != null){
-            if (actual.dato != null && actual.dato.equals(object)){
+            Object valorActual = actual.dato;
+
+            if (valorActual instanceof DoubleNode) {
+                valorActual = ((DoubleNode) valorActual).dato;
+            }
+
+            if (valorActual != null && valorActual.equals(object)) {
                 return actual;
             }
             actual = actual.siguiente;
@@ -77,22 +90,30 @@ public class MiListaDoble implements ListInterface {
 
     @Override
     public boolean insert(DoubleNode node, Object object) {
-        if (node == null) return false;
+        if (node == null || isEmpty()) return false;
 
-        if (node == this.cola) {
+        DoubleNode actual = this.cabeza;
+        while (actual != null && actual != node && actual.dato != node) {
+            actual = actual.siguiente;
+        }
+
+        if (actual == null) return false;
+
+        if (actual == this.cola) {
             return add(object);
         }
 
         DoubleNode nuevoNodo = new DoubleNode(object);
-        nuevoNodo.siguiente = node.siguiente;
-        nuevoNodo.anterior = node;
+        nuevoNodo.siguiente = actual.siguiente;
+        nuevoNodo.anterior = actual;
 
-        if (node.siguiente != null) {
-            node.siguiente.anterior = nuevoNodo;
+        if (actual.siguiente != null) {
+            actual.siguiente.anterior = nuevoNodo;
         }
-        node.siguiente = nuevoNodo;
+        actual.siguiente = nuevoNodo;
 
-        return true;}
+        return true;
+    }
 
     @Override
     public boolean insert(Object objectRef, Object object) {
@@ -149,51 +170,91 @@ public class MiListaDoble implements ListInterface {
             return false;
         }
 
-        DoubleNode ant = (DoubleNode) node.anterior;
-        DoubleNode sig = node.siguiente;
+        DoubleNode actual = this.cabeza;
 
-        if (node == this.cabeza && node == this.cola) {
-            this.cabeza = null;
-            this.cola = null;
-        }
-        else if (node == this.cabeza) {
-            this.cabeza = sig;
-            if (this.cabeza != null) {
-                this.cabeza.anterior = null;
+        while (actual != null) {
+            if (actual == node || actual.dato == node) {
+
+                if (actual == this.cabeza) {
+                    this.cabeza = actual.siguiente;
+                    if (this.cabeza != null) {
+                        this.cabeza.anterior = null;
+                    } else {
+                        this.cola = null; // La lista quedó vacía
+                    }
+                }
+                // 2. Si es la cola
+                else if (actual == this.cola) {
+                    this.cola = (DoubleNode) actual.anterior;
+                    if (this.cola != null) {
+                        this.cola.siguiente = null;
+                    }
+                }
+                // 3. Si es un nodo intermedio
+                else {
+                    DoubleNode ant = (DoubleNode) actual.anterior;
+                    DoubleNode sig = actual.siguiente;
+
+                    if (ant != null) {
+                        ant.siguiente = sig;
+                    }
+                    if (sig != null) {
+                        sig.anterior = ant;
+                    }
+                }
+
+                // Desconectar el nodo eliminado
+                actual.anterior = null;
+                actual.siguiente = null;
+
+                return true; // Se eliminó con éxito
             }
+            actual = actual.siguiente;
         }
 
-        else if (node == this.cola) {
-            this.cola = ant;
-            if (this.cola != null) {
-                this.cola.siguiente = null;
-            }
-        }
-        else {
-            if (ant != null) {
-                ant.siguiente = sig;
-            }
-            if (sig != null) {
-                sig.anterior = ant;
-            }
-        }
-
-        node.siguiente = null;
-        node.anterior = null;
-
-        return true;
+        return false; //
     }
 
     // --- ESQUELETOS DE OPERACIONES DE EXPANSIÓN ---
 
     @Override
     public boolean contains(Object object) {
+        if (object == null || isEmpty()) {
+            return false;
+        }
+
+        DoubleNode actual = this.cabeza;
+        while (actual != null) {
+            if (object.equals(actual.dato)) {
+                return true;
+            }
+            actual = actual.siguiente;
+        }
+
         return false;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        if (isEmpty()) {
+            return new Object[0];
+        }
+
+        Object[] arreglo = new Object[getSize()];
+        DoubleNode actual = this.cabeza;
+        int i = 0;
+
+        while (actual != null) {
+            if (actual.dato instanceof DoubleNode) {
+                arreglo[i] = ((DoubleNode) actual.dato).dato;
+            } else {
+                arreglo[i] = actual.dato;
+            }
+            actual = actual.siguiente;
+            i++;
+        }
+
+        return arreglo;
     }
 
     @Override
